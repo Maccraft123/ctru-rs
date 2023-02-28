@@ -13,6 +13,7 @@ pub mod gspgpu;
 pub mod hid;
 pub mod ndsp;
 pub mod ps;
+pub mod ptmu;
 mod reference;
 pub mod soc;
 pub mod sslc;
