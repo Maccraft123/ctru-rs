@@ -1,5 +1,6 @@
 use crate::error::ResultCode;
 use crate::services::fs::FsMediaType;
+use std::marker::PhantomData;
 use bitflags::bitflags;
 
 bitflags! {
@@ -31,7 +32,7 @@ bitflags! {
 pub struct Title<'a> {
     id: u64,
     mediatype: FsMediaType,
-    am: &'a Am,
+    _am: PhantomData<&'a Am>,
 }
 
 impl<'a> Title<'a> {
@@ -96,7 +97,7 @@ impl Am {
             buf.set_len(read_amount as usize);
         }
         Ok(buf.into_iter()
-            .map(|id| Title {id, mediatype, am: &self})
+            .map(|id| Title {id, mediatype, _am: PhantomData})
             .collect())
     }
 }

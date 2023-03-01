@@ -19,6 +19,7 @@ fn main() {
     let title_list = am
         .get_title_list(FsMediaType::Sd)
         .expect("Failed to get title list");
+
     for title in title_list {
         println!("{:x}, {}, {:?}", title.id(), title.get_product_code().unwrap_or("<unknown>".to_string()), title.content_category());
     }
