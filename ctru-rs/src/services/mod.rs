@@ -15,6 +15,7 @@ pub mod ndsp;
 pub mod ps;
 mod reference;
 pub mod soc;
+pub mod srv;
 pub mod sslc;
 
 pub use self::apt::Apt;
