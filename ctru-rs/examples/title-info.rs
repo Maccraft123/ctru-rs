@@ -1,6 +1,8 @@
 use ctru::prelude::*;
 use ctru::services::am::Am;
+use ctru::services::cfgu::Cfgu;
 use ctru::services::fs::FsMediaType;
+use ctru::smdh::Smdh;
 
 fn main() {
     ctru::use_panic_handler();
@@ -9,8 +11,12 @@ fn main() {
     let hid = Hid::init().expect("Couldn't obtain HID controller");
     let apt = Apt::init().expect("Couldn't obtain APT controller");
     let am = Am::init().expect("Couldn't obtain AM controller");
+    let cfgu = Cfgu::init().expect("Couldn't obtain CFGU controller");
     let top_screen = Console::init(gfx.top_screen.borrow_mut());
     let bottom_screen = Console::init(gfx.bottom_screen.borrow_mut());
+
+    let system_lang = cfgu.get_language().expect("Failed to get system language");
+
 
     let sd_count = am
         .get_title_count(FsMediaType::Sd)
@@ -91,6 +97,14 @@ fn main() {
             match selected_title.get_product_code() {
                 Ok(code) => println!("Product code: \"{code}\""),
                 Err(e) => println!("Failed to get product code: {}", e),
+            }
+            match Smdh::load(*selected_title) {
+                Ok(smdh) => {
+                    println!("Name: {}", smdh.short_name(system_lang));
+                    println!("Publisher: {}", smdh.publisher(system_lang));
+                    println!("Flags: {:?}", smdh.flags());
+                }
+                Err(e) => println!("Failed to open SMDH: {e}"),
             }
 
             println!("\x1b[26;0HPress START to exit");

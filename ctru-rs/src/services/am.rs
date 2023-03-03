@@ -31,6 +31,7 @@ impl TitleInfo {
     }
 }
 
+#[derive(Copy, Clone, Debug)]
 pub struct Title<'a> {
     id: u64,
     mediatype: FsMediaType,
@@ -40,6 +41,18 @@ pub struct Title<'a> {
 impl<'a> Title<'a> {
     pub fn id(&self) -> u64 {
         self.id
+    }
+
+    pub fn low_u32(&self) -> u32 {
+        (self.id & 0x0000_0000_ffff_ffff) as u32
+    }
+
+    pub fn high_u32(&self) -> u32 {
+        ((self.id & 0xffff_ffff_0000_0000) >> 32) as u32
+    }
+
+    pub fn media_type(&self) -> FsMediaType {
+        self.mediatype
     }
 
     pub fn get_product_code(&self) -> crate::Result<String> {
