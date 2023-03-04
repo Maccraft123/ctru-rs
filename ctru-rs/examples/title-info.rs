@@ -103,6 +103,7 @@ fn main() {
                     println!("Name: {}", smdh.short_name(system_lang));
                     println!("Publisher: {}", smdh.publisher(system_lang));
                     println!("Flags: {:?}", smdh.flags());
+                    println!("Region: {:?}", smdh.region());
                 }
                 Err(e) => println!("Failed to open SMDH: {e}"),
             }
