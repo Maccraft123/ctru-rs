@@ -15,7 +15,7 @@ pub struct Smdh {
     eula_version_major: u8,
     eula_version_minor: u8,
     optimal_banner_anim_frame: f32,
-    cec_id: u32,
+    streetpass_id: u32,
     _pad: [u8; 8],
     small_icon: [u8; 0x480],
     large_icon: [u8; 0x1200],
@@ -30,6 +30,7 @@ pub struct SmdhTitle {
 }
 
 bitflags! {
+    #[repr(transparent)]
     pub struct SmdhFlags: u32 {
         const VISIBLE = 0x1;
         const AUTOBOOT_GAMECARD = 0x2;
@@ -46,6 +47,7 @@ bitflags! {
 }
 
 bitflags! {
+    #[repr(transparent)]
     pub struct RegionLock: u32 {
         const JAPAN = 0x1;
         const NORTH_AMERICA = 0x2;
@@ -85,5 +87,13 @@ impl Smdh {
 
     pub fn eula_version(&self) -> (u8, u8) {
         (self.eula_version_major, self.eula_version_minor)
+    }
+
+    pub(crate) fn magic(&self) -> [u8; 4] {
+        self.magic
+    }
+
+    pub fn streetpass_id(&self) -> u32 {
+        self.streetpass_id
     }
 }

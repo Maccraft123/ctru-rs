@@ -16,7 +16,6 @@ fn main() {
 
     let system_lang = cfgu.get_language().expect("Failed to get system language");
 
-
     let sd_count = am
         .get_title_count(FsMediaType::Sd)
         .expect("Failed to get sd title count");

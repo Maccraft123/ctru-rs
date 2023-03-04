@@ -1,10 +1,10 @@
 use crate::error::ResultCode;
-use crate::services::fs::FsMediaType;
 use crate::services::fs::Fs;
+use crate::services::fs::FsMediaType;
 use crate::smdh::Smdh;
 use std::marker::PhantomData;
-use std::mem::MaybeUninit;
 use std::mem::size_of;
+use std::mem::MaybeUninit;
 
 #[derive(Copy, Clone, Debug)]
 #[repr(C)]
@@ -88,8 +88,12 @@ impl<'a> Title<'a> {
 
     pub fn get_smdh(&self) -> crate::Result<Smdh> {
         // i have no idea how to make this look better
-        let archive_path_data: [u32; 4] =
-            [self.low_u32(), self.high_u32(), self.media_type() as u32, 0x0];
+        let archive_path_data: [u32; 4] = [
+            self.low_u32(),
+            self.high_u32(),
+            self.media_type() as u32,
+            0x0,
+        ];
         let smdh_path_data: [u32; 5] = [0x0, 0x0, 0x2, u32::from_le_bytes(*b"icon"), 0x0];
 
         let archive_path = ctru_sys::FS_Path {
@@ -129,6 +133,8 @@ impl<'a> Title<'a> {
 
             ret.assume_init()
         };
+
+        assert_eq!(&smdh.magic(), b"SMDH");
 
         Ok(smdh)
     }
