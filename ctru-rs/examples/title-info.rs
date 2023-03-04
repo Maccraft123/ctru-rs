@@ -2,7 +2,6 @@ use ctru::prelude::*;
 use ctru::services::am::Am;
 use ctru::services::cfgu::Cfgu;
 use ctru::services::fs::FsMediaType;
-use ctru::smdh::Smdh;
 
 fn main() {
     ctru::use_panic_handler();
@@ -98,7 +97,7 @@ fn main() {
                 Ok(code) => println!("Product code: \"{code}\""),
                 Err(e) => println!("Failed to get product code: {}", e),
             }
-            match Smdh::load(*selected_title) {
+            match selected_title.get_smdh() {
                 Ok(smdh) => {
                     println!("Name: {}", smdh.short_name(system_lang));
                     println!("Publisher: {}", smdh.publisher(system_lang));
