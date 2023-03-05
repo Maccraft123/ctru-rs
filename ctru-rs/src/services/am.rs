@@ -1,7 +1,7 @@
 use crate::error::ResultCode;
 use crate::services::fs::Fs;
 use crate::services::fs::FsMediaType;
-use crate::smdh::Smdh;
+use ctr_formats::smdh::Smdh;
 use std::marker::PhantomData;
 use std::mem::size_of;
 use std::mem::MaybeUninit;
@@ -90,7 +90,7 @@ impl<'a> Title<'a> {
         let mut smdh_handle = 0;
 
         let smdh: Smdh = unsafe {
-            let mut ret = MaybeUninit::zeroed();
+            let mut smdh_slice = [0_u8; 0x36c0];
             ResultCode(ctru_sys::FSUSER_OpenFileDirectly(
                 &mut smdh_handle,
                 ctru_sys::ARCHIVE_SAVEDATA_AND_CONTENT,
@@ -104,13 +104,13 @@ impl<'a> Title<'a> {
                 smdh_handle,
                 std::ptr::null_mut(),
                 0x0,
-                ret.as_mut_ptr() as *mut libc::c_void,
+                smdh_slice.as_mut_ptr() as *mut libc::c_void,
                 size_of::<Smdh>() as u32,
             ))?;
 
             ResultCode(ctru_sys::FSFILE_Close(smdh_handle))?;
 
-            ret.assume_init()
+            Smdh::from_u8_slice(&smdh_slice)
         };
 
         assert_eq!(&smdh.magic(), b"SMDH");

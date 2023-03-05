@@ -129,6 +129,25 @@ from_type_to_u8!(Region);
 from_type_to_u8!(Language);
 from_type_to_u8!(SystemModel);
 
+impl From<Language> for ctr_formats::Language {
+    fn from(value: Language) -> ctr_formats::Language {
+        match value {
+            Language::Japanese => ctr_formats::Language::Japanese,
+            Language::English => ctr_formats::Language::English,
+            Language::French => ctr_formats::Language::French,
+            Language::German => ctr_formats::Language::German,
+            Language::Italian => ctr_formats::Language::Italian,
+            Language::Spanish => ctr_formats::Language::Spanish,
+            Language::SimplifiedChinese => ctr_formats::Language::SimplifiedChinese,
+            Language::Korean => ctr_formats::Language::Korean,
+            Language::Dutch => ctr_formats::Language::Dutch,
+            Language::Portuguese => ctr_formats::Language::Portugese,
+            Language::Russian => ctr_formats::Language::Russian,
+            Language::TraditionalChinese => ctr_formats::Language::TraditionalChinese,
+        }
+    }
+}
+
 impl TryFrom<u8> for Region {
     type Error = ();
 

@@ -20,6 +20,7 @@ pthread-3ds = { git = "https://github.com/rust3ds/pthread-3ds.git" }
 libc = "0.2.121"
 bitflags = "1.0.0"
 widestring = "0.2.2"
+ctr-formats = { git = "https://github.com/Maccraft123/ctr-formats.git" }
 
 [build-dependencies]
 toml = "0.5"

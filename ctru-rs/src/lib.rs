@@ -67,7 +67,6 @@ pub mod linear;
 pub mod mii;
 pub mod prelude;
 pub mod services;
-pub mod smdh;
 
 cfg_if::cfg_if! {
     if #[cfg(all(feature = "romfs", romfs_exists))] {

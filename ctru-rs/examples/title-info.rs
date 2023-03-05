@@ -14,7 +14,8 @@ fn main() {
     let top_screen = Console::init(gfx.top_screen.borrow_mut());
     let bottom_screen = Console::init(gfx.bottom_screen.borrow_mut());
 
-    let system_lang = cfgu.get_language().expect("Failed to get system language");
+    let system_lang = cfgu.get_language()
+        .expect("Failed to get system language").into();
 
     let sd_count = am
         .get_title_count(FsMediaType::Sd)
